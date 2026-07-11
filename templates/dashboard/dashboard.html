@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Welcome, {{ user.username }}</h1>
+<p class="pms-page-sub">Role: {{ user.role|title }}</p>
+
+<div class="pms-actions">
+  <a href="{% url 'register_applicant' %}" class="pms-btn pms-btn-primary">Register new applicant</a>
+  <a href="{% url 'applicant_list' %}" class="pms-btn pms-btn-ghost">View all applicants</a>
+  <a href="{% url 'submit_application' %}" class="pms-btn pms-btn-gold">Submit passport application</a>
+  <a href="{% url 'application_list' %}" class="pms-btn pms-btn-ghost">View all applications</a>
+  {% if user.role == 'admin' %}
+  <a href="{% url 'officer_list' %}" class="pms-btn pms-btn-ghost">Manage officers</a>
+  <a href="{% url 'reports' %}" class="pms-btn pms-btn-ghost">View reports</a>
+  {% endif %}
+</div>
+
+<div class="pms-card">
+  <p class="pms-card-text">This is your officer dashboard. Applicant statistics and quick actions will appear here soon.</p>
+</div>
+{% endblock %}

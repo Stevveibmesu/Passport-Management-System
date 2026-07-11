@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Reports · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Reports</h1>
+<p class="pms-page-sub">A snapshot of system activity.</p>
+
+<div class="pms-stat-grid">
+  <div class="pms-stat-card"><span class="pms-stat-num">{{ stats.total_applicants }}</span><span class="pms-stat-label">Applicants</span></div>
+  <div class="pms-stat-card"><span class="pms-stat-num">{{ stats.total_applications }}</span><span class="pms-stat-label">Applications</span></div>
+  <div class="pms-stat-card"><span class="pms-stat-num">{{ stats.total_officers }}</span><span class="pms-stat-label">Officers</span></div>
+</div>
+
+<h3 class="pms-section-heading">Applications by status</h3>
+<div class="pms-stat-grid">
+  <div class="pms-stat-card"><span class="pms-stat-num pms-stat-num--pending">{{ stats.pending }}</span><span class="pms-stat-label">Pending</span></div>
+  <div class="pms-stat-card"><span class="pms-stat-num pms-stat-num--review">{{ stats.under_review }}</span><span class="pms-stat-label">Under review</span></div>
+  <div class="pms-stat-card"><span class="pms-stat-num pms-stat-num--approved">{{ stats.approved }}</span><span class="pms-stat-label">Approved</span></div>
+  <div class="pms-stat-card"><span class="pms-stat-num pms-stat-num--rejected">{{ stats.rejected }}</span><span class="pms-stat-label">Rejected</span></div>
+</div>
+{% endblock %}

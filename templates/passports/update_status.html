@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Update Status · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Update application status</h1>
+<p class="pms-page-sub">{{ application.applicant.full_name }} — submitted {{ application.submitted_at|date:"M d, Y" }}</p>
+
+<div class="pms-card pms-card--narrow">
+<p><strong>Current status:</strong>
+{% if application.status == 'pending' %}<span class="pms-stamp pms-stamp-pending">Pending</span>
+{% elif application.status == 'under_review' %}<span class="pms-stamp pms-stamp-review">Under review</span>
+{% elif application.status == 'approved' %}<span class="pms-stamp pms-stamp-approved">Approved</span>
+{% elif application.status == 'rejected' %}<span class="pms-stamp pms-stamp-rejected">Rejected</span>
+{% endif %}
+</p>
+{% if application.passport_number %}
+<p><strong>Passport number:</strong> <span class="pms-mono">{{ application.passport_number }}</span></p>
+{% endif %}
+
+<form method="post" class="pms-form">
+{% csrf_token %}
+<label for="status">Change status</label>
+<select name="status" id="status">
+<option value="pending" {% if application.status == 'pending' %}selected{% endif %}>Pending</option>
+<option value="under_review" {% if application.status == 'under_review' %}selected{% endif %}>Under review</option>
+<option value="approved" {% if application.status == 'approved' %}selected{% endif %}>Approved</option>
+<option value="rejected" {% if application.status == 'rejected' %}selected{% endif %}>Rejected</option>
+</select>
+<button type="submit" class="pms-btn pms-btn-primary pms-btn-block pms-btn--spaced">Save status</button>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Officer Login · Passport Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+{% load static %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="pms-login-wrap">
+  <div class="pms-login-card">
+    <span class="pms-login-mark">PMS</span>
+    <h1 class="pms-login-title">Officer sign in</h1>
+    <p class="pms-login-sub">Enter your credentials to access the passport desk.</p>
+    <form method="post" class="pms-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="pms-btn pms-btn-primary pms-btn-block">Sign in</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

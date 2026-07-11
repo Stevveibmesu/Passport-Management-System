@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Manage Officers · Passport Management System{% endblock %}
+{% block content %}
+<div class="pms-header-row">
+  <div>
+    <h1 class="pms-page-title">Manage officers</h1>
+    <p class="pms-page-sub">All officer and admin accounts in the system.</p>
+  </div>
+  <a href="{% url 'add_officer' %}" class="pms-btn pms-btn-primary">+ New officer</a>
+</div>
+
+<div class="pms-table-wrap">
+<table class="pms-table">
+<thead><tr><th>Username</th><th>Email</th><th>Phone</th><th>Role</th><th>Status</th><th></th></tr></thead>
+<tbody>
+{% for officer in officers %}
+<tr>
+<td>{{ officer.username }}</td>
+<td>{{ officer.email|default:"—" }}</td>
+<td class="pms-mono">{{ officer.phone_number|default:"—" }}</td>
+<td>{{ officer.get_role_display }}</td>
+<td>{% if officer.is_active %}<span class="pms-stamp pms-stamp-approved">Active</span>{% else %}<span class="pms-stamp pms-stamp-rejected">Inactive</span>{% endif %}</td>
+<td>
+<form method="post" action="{% url 'toggle_officer_status' officer.pk %}" class="pms-form-inline">
+{% csrf_token %}
+<button type="submit" class="pms-btn pms-btn-ghost pms-btn-sm">{% if officer.is_active %}Deactivate{% else %}Activate{% endif %}</button>
+</form>
+</td>
+</tr>
+{% empty %}
+<tr><td colspan="6" class="pms-empty">No officers found.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

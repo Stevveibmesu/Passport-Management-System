@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Passport Management System{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+{% load static %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<nav class="pms-nav">
+  <div class="pms-nav-inner">
+    <a class="pms-brand" href="{% url 'dashboard' %}">
+      <span class="pms-brand-mark">PMS</span>
+      <span class="pms-brand-text">Passport Management System</span>
+    </a>
+    <div class="pms-nav-links">
+      {% block nav_links %}
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      {% if user.role == 'admin' %}
+      <a href="{% url 'officer_list' %}">Officers</a>
+      <a href="{% url 'reports' %}">Reports</a>
+      {% endif %}
+      <a href="{% url 'logout' %}" class="pms-btn-outline">Logout</a>
+      {% endblock %}
+    </div>
+  </div>
+</nav>
+
+{% if messages %}
+<div class="pms-messages">
+{% for message in messages %}
+<div class="pms-message pms-message-{{ message.tags }}">{{ message }}</div>
+{% endfor %}
+</div>
+{% endif %}
+
+<main class="pms-main">
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}All Applicants · Passport Management System{% endblock %}
+{% block content %}
+<div class="pms-header-row">
+  <div>
+    <h1 class="pms-page-title">All applicants</h1>
+    <p class="pms-page-sub">Everyone registered in the system so far.</p>
+  </div>
+  <a href="{% url 'register_applicant' %}" class="pms-btn pms-btn-primary">+ New applicant</a>
+</div>
+
+<form method="get" class="pms-search-bar">
+  <input type="text" name="q" value="{{ query }}" placeholder="Search by name or National ID">
+  <button type="submit" class="pms-btn pms-btn-ghost pms-btn-sm">Search</button>
+</form>
+
+<div class="pms-table-wrap">
+<table class="pms-table">
+<thead><tr><th>Full name</th><th>DOB</th><th>Gender</th><th>National ID</th><th>Phone</th><th>Registered by</th><th>Registered on</th></tr></thead>
+<tbody>
+{% for applicant in applicants %}
+<tr>
+<td>{{ applicant.full_name }}</td>
+<td>{{ applicant.date_of_birth }}</td>
+<td>{{ applicant.get_gender_display }}</td>
+<td class="pms-mono">{{ applicant.national_id_number }}</td>
+<td class="pms-mono">{{ applicant.phone_number }}</td>
+<td>{{ applicant.registered_by }}</td>
+<td>{{ applicant.created_at|date:"M d, Y" }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="7" class="pms-empty">No applicants found.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

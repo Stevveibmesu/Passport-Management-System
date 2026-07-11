@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Submit Passport Application · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Submit passport application</h1>
+<p class="pms-page-sub">Attach the applicant's photo and identifying document.</p>
+<div class="pms-card pms-card--narrow">
+<form method="post" enctype="multipart/form-data" class="pms-form">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit" class="pms-btn pms-btn-gold pms-btn-block pms-btn--spaced">Submit application</button>
+</form>
+</div>
+{% endblock %}
