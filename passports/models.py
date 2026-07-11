@@ -36,6 +36,8 @@ class PassportApplication(models.Model):
     def save(self, *args, **kwargs):
         if self.status == 'approved' and not self.passport_number:
             self.passport_number = f"PMS-{uuid.uuid4().hex[:8].upper()}"
+        elif self.status != 'approved':
+            self.passport_number = None
         super().save(*args, **kwargs)
 
     def __str__(self):
