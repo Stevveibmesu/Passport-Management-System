@@ -11,3 +11,13 @@ def admin_required(view_func):
             return redirect('dashboard')
         return view_func(request, *args, **kwargs)
     return wrapper
+
+
+def officer_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated or request.user.role != 'officer':
+            messages.error(request, "This page is for officers only.")
+            return redirect('dashboard')
+        return view_func(request, *args, **kwargs)
+    return wrapper

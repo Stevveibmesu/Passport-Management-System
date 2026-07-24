@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
+from accounts.decorators import admin_required
 from .forms import ApplicantForm
 from .models import Applicant
 
@@ -31,3 +33,17 @@ def applicant_list(request):
             Q(full_name__icontains=query) | Q(national_id_number__icontains=query)
         )
     return render(request, 'applicants/list.html', {'applicants': applicants, 'query': query})
+
+
+@login_required
+@admin_required
+def delete_applicant(request, pk):
+    applicant = get_object_or_404(Applicant, pk=pk)
+
+    if request.method == 'POST':
+        name = applicant.full_name
+        applicant.delete()
+        messages.success(request, f"{name} and all their applications were deleted.")
+        return redirect('applicant_list')
+
+    return render(request, 'applicants/delete_confirm.html', {'applicant': applicant})

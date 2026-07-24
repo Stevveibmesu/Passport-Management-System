@@ -7,5 +7,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('officers/', views.officer_list, name='officer_list'),
     path('officers/add/', views.add_officer, name='add_officer'),
+    path('officers/<int:pk>/edit/', views.edit_officer, name='edit_officer'),
     path('officers/<int:pk>/toggle/', views.toggle_officer_status, name='toggle_officer_status'),
+    path('officers/<int:pk>/delete/', views.delete_officer, name='delete_officer'),
 ]

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Appointments · Passport Management System{% endblock %}
+{% block content %}
+<div class="pms-header-row">
+  <div>
+    <h1 class="pms-page-title">Appointments</h1>
+    <p class="pms-page-sub">{{ application.applicant.full_name }} — application #{{ application.id }}</p>
+  </div>
+  <a href="{% url 'schedule_appointment' application.pk %}" class="pms-btn pms-btn-primary">+ Schedule new</a>
+</div>
+
+<div class="pms-table-wrap">
+<table class="pms-table">
+<thead><tr><th>Purpose</th><th>Date</th><th>Time</th><th>Location</th><th>Status</th><th></th></tr></thead>
+<tbody>
+{% for appt in appointments %}
+<tr>
+<td>{{ appt.get_purpose_display }}</td>
+<td>{{ appt.appointment_date }}</td>
+<td>{{ appt.appointment_time }}</td>
+<td>{{ appt.location }}</td>
+<td>
+{% if appt.status == 'scheduled' %}<span class="pms-stamp pms-stamp-review">Scheduled</span>
+{% elif appt.status == 'completed' %}<span class="pms-stamp pms-stamp-approved">Completed</span>
+{% elif appt.status == 'missed' %}<span class="pms-stamp pms-stamp-rejected">Missed</span>
+{% endif %}
+</td>
+<td>
+<form method="post" action="{% url 'update_appointment_status' appt.pk %}" class="pms-appt-form">
+{% csrf_token %}
+<select name="status" class="pms-mono pms-appt-select" title="Update appointment status" aria-label="Appointment status">
+<option value="scheduled" {% if appt.status == 'scheduled' %}selected{% endif %}>Scheduled</option>
+<option value="completed" {% if appt.status == 'completed' %}selected{% endif %}>Completed</option>
+<option value="missed" {% if appt.status == 'missed' %}selected{% endif %}>Missed</option>
+</select>
+<button type="submit" class="pms-btn pms-btn-ghost pms-btn-sm">Save</button>
+</form>
+</td>
+</tr>
+{% empty %}
+<tr><td colspan="6" class="pms-empty">No appointments scheduled yet.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

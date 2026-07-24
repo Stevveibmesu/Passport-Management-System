@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Documents · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Documents</h1>
+<p class="pms-page-sub">{{ application.applicant.full_name }} — application #{{ application.id }}</p>
+
+<div class="pms-card" style="max-width:480px;">
+<h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-top:0;">Upload a document</h3>
+<form method="post" enctype="multipart/form-data" class="pms-form">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit" class="pms-btn pms-btn-primary pms-btn-block" style="margin-top:16px;">Upload</button>
+</form>
+</div>
+
+<div class="pms-table-wrap" style="margin-top:28px;">
+<table class="pms-table">
+<thead><tr><th>Type</th><th>Uploaded</th><th>Verified</th><th></th></tr></thead>
+<tbody>
+{% for doc in documents %}
+<tr>
+<td><a href="{{ doc.file.url }}" target="_blank">{{ doc.get_document_type_display }}</a></td>
+<td>{{ doc.uploaded_at|date:"M d, Y" }}</td>
+<td>
+{% if doc.is_verified %}<span class="pms-stamp pms-stamp-approved">Verified</span>
+{% else %}<span class="pms-stamp pms-stamp-pending">Unverified</span>
+{% endif %}
+</td>
+<td>
+<form method="post" action="{% url 'verify_document' doc.pk %}" style="margin:0;">
+{% csrf_token %}
+<button type="submit" class="pms-btn pms-btn-ghost pms-btn-sm">{% if doc.is_verified %}Unverify{% else %}Verify{% endif %}</button>
+</form>
+</td>
+</tr>
+{% empty %}
+<tr><td colspan="4" class="pms-empty">No documents uploaded yet.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

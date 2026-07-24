@@ -4,18 +4,28 @@
 <h1 class="pms-page-title">Welcome, {{ user.username }}</h1>
 <p class="pms-page-sub">Role: {{ user.role|title }}</p>
 
+{% if user.role == 'admin' %}
+<div class="pms-actions">
+  <a href="{% url 'officer_list' %}" class="pms-btn pms-btn-primary">Manage officers</a>
+  <a href="{% url 'reports' %}" class="pms-btn pms-btn-gold">View reports</a>
+  <a href="{% url 'applicant_list' %}" class="pms-btn pms-btn-ghost">View applicants</a>
+  <a href="{% url 'application_list' %}" class="pms-btn pms-btn-ghost">View applications</a>
+</div>
+
+<div class="pms-card">
+  <p style="margin:0;color:var(--ink-soft);">You're logged in as an administrator. Manage officer accounts, view system-wide reports, and remove applicants or applications when needed.</p>
+</div>
+
+{% else %}
 <div class="pms-actions">
   <a href="{% url 'register_applicant' %}" class="pms-btn pms-btn-primary">Register new applicant</a>
   <a href="{% url 'applicant_list' %}" class="pms-btn pms-btn-ghost">View all applicants</a>
   <a href="{% url 'submit_application' %}" class="pms-btn pms-btn-gold">Submit passport application</a>
   <a href="{% url 'application_list' %}" class="pms-btn pms-btn-ghost">View all applications</a>
-  {% if user.role == 'admin' %}
-  <a href="{% url 'officer_list' %}" class="pms-btn pms-btn-ghost">Manage officers</a>
-  <a href="{% url 'reports' %}" class="pms-btn pms-btn-ghost">View reports</a>
-  {% endif %}
 </div>
 
 <div class="pms-card">
-  <p class="pms-card-text">This is your officer dashboard. Applicant statistics and quick actions will appear here soon.</p>
+  <p style="margin:0;color:var(--ink-soft);">This is your officer dashboard. Register applicants, submit passport applications, and track their progress here.</p>
 </div>
+{% endif %}
 {% endblock %}

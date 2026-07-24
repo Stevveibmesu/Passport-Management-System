@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Delete Officer · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Delete officer</h1>
+<div class="pms-card pms-card--small">
+<p>Are you sure you want to permanently delete <strong>{{ officer.username }}</strong>? This cannot be undone.</p>
+<form method="post">
+{% csrf_token %}
+<button type="submit" class="pms-btn pms-btn-primary pms-btn-block pms-btn-danger">Yes, delete this officer</button>
+</form>
+<a href="{% url 'officer_list' %}" class="pms-btn pms-btn-ghost pms-btn-block pms-btn-cancel">Cancel</a>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Schedule Appointment · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Schedule appointment</h1>
+<p class="pms-page-sub">{{ application.applicant.full_name }} — application #{{ application.id }}</p>
+
+<div class="pms-card pms-appointment-card">
+<form method="post" class="pms-form">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit" class="pms-btn pms-btn-primary pms-btn-block pms-schedule-btn">Schedule</button>
+</form>
+</div>
+
+{% if appointments %}
+<h3 class="pms-appointments-heading">Existing appointments</h3>
+<div class="pms-table-wrap">
+<table class="pms-table">
+<thead><tr><th>Purpose</th><th>Date</th><th>Time</th><th>Location</th><th>Status</th></tr></thead>
+<tbody>
+{% for appt in appointments %}
+<tr>
+<td>{{ appt.get_purpose_display }}</td>
+<td>{{ appt.appointment_date }}</td>
+<td>{{ appt.appointment_time }}</td>
+<td>{{ appt.location }}</td>
+<td>{{ appt.get_status_display }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+{% endblock %}

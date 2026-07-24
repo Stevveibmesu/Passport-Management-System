@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Delete Applicant · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Delete applicant</h1>
+<div class="pms-card" style="max-width:480px;">
+<p>Are you sure you want to permanently delete <strong>{{ applicant.full_name }}</strong>? This will also delete all of their passport applications, payments, appointments, and documents. This cannot be undone.</p>
+<form method="post">
+{% csrf_token %}
+<button type="submit" class="pms-btn pms-btn-primary pms-btn-block" style="background:var(--rejected);">Yes, delete this applicant</button>
+</form>
+<a href="{% url 'applicant_list' %}" class="pms-btn pms-btn-ghost pms-btn-block" style="margin-top:10px;">Cancel</a>
+</div>
+{% endblock %}

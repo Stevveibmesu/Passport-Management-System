@@ -20,11 +20,13 @@
 <td class="pms-mono">{{ officer.phone_number|default:"—" }}</td>
 <td>{{ officer.get_role_display }}</td>
 <td>{% if officer.is_active %}<span class="pms-stamp pms-stamp-approved">Active</span>{% else %}<span class="pms-stamp pms-stamp-rejected">Inactive</span>{% endif %}</td>
-<td>
+<td class="pms-table-actions">
+<a href="{% url 'edit_officer' officer.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm">Edit</a>
 <form method="post" action="{% url 'toggle_officer_status' officer.pk %}" class="pms-form-inline">
 {% csrf_token %}
 <button type="submit" class="pms-btn pms-btn-ghost pms-btn-sm">{% if officer.is_active %}Deactivate{% else %}Activate{% endif %}</button>
 </form>
+<a href="{% url 'delete_officer' officer.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm pms-btn-danger">Delete</a>
 </td>
 </tr>
 {% empty %}

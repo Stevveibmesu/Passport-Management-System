@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Edit Officer · Passport Management System{% endblock %}
+{% block content %}
+<h1 class="pms-page-title">Edit officer</h1>
+<p class="pms-page-sub">{{ officer.username }}</p>
+<div class="pms-card pms-card-narrow">
+<form method="post" class="pms-form">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit" class="pms-btn pms-btn-primary pms-btn-block pms-btn-submit">Save changes</button>
+</form>
+</div>
+{% endblock %}

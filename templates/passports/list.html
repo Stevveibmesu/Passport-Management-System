@@ -16,11 +16,12 @@
 
 <div class="pms-table-wrap">
 <table class="pms-table">
-<thead><tr><th>Applicant</th><th>Status</th><th>Passport no.</th><th>Submitted</th><th>Reviewed by</th><th></th></tr></thead>
+<thead><tr><th>Applicant</th><th>Type</th><th>Status</th><th>Passport no.</th><th>Payment</th><th>Submitted</th><th></th></tr></thead>
 <tbody>
 {% for app in applications %}
 <tr>
 <td>{{ app.applicant.full_name }}</td>
+<td>{{ app.get_application_type_display }}</td>
 <td>
 {% if app.status == 'pending' %}<span class="pms-stamp pms-stamp-pending">Pending</span>
 {% elif app.status == 'under_review' %}<span class="pms-stamp pms-stamp-review">Under review</span>
@@ -29,12 +30,25 @@
 {% endif %}
 </td>
 <td class="pms-mono">{{ app.passport_number|default:"—" }}</td>
+<td>
+{% if app.payment.status == 'paid' %}<span class="pms-stamp pms-stamp-approved">Paid</span>
+{% else %}<span class="pms-stamp pms-stamp-pending">Unpaid</span>
+{% endif %}
+</td>
 <td>{{ app.submitted_at|date:"M d, Y" }}</td>
-<td>{{ app.reviewed_by|default:"—" }}</td>
-<td><a href="{% url 'update_status' app.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm">Update</a></td>
+<td>
+<a href="{% url 'update_status' app.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm">Status</a>
+<a href="{% url 'record_payment' app.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm">Payment</a>
+<a href="{% url 'appointment_list' app.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm">Appointments</a>
+<a href="{% url 'document_list' app.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm">Documents</a>
+<a href="{% url 'notification_list' app.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm">Notifications</a>
+{% if user.role == 'admin' %}
+<a href="{% url 'delete_application' app.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm" style="color:var(--rejected);border-color:var(--rejected);">Delete</a>
+{% endif %}
+</td>
 </tr>
 {% empty %}
-<tr><td colspan="6" class="pms-empty">No applications found.</td></tr>
+<tr><td colspan="7" class="pms-empty">No applications found.</td></tr>
 {% endfor %}
 </tbody>
 </table>

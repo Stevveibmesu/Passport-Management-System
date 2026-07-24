@@ -16,7 +16,7 @@
 
 <div class="pms-table-wrap">
 <table class="pms-table">
-<thead><tr><th>Full name</th><th>DOB</th><th>Gender</th><th>National ID</th><th>Phone</th><th>Registered by</th><th>Registered on</th></tr></thead>
+<thead><tr><th>Full name</th><th>DOB</th><th>Gender</th><th>National ID</th><th>Phone</th><th>Registered by</th><th>Registered on</th>{% if user.role == 'admin' %}<th></th>{% endif %}</tr></thead>
 <tbody>
 {% for applicant in applicants %}
 <tr>
@@ -25,11 +25,14 @@
 <td>{{ applicant.get_gender_display }}</td>
 <td class="pms-mono">{{ applicant.national_id_number }}</td>
 <td class="pms-mono">{{ applicant.phone_number }}</td>
-<td>{{ applicant.registered_by }}</td>
+<td>{{ applicant.registered_by.username|default:"—" }}</td>
 <td>{{ applicant.created_at|date:"M d, Y" }}</td>
+{% if user.role == 'admin' %}
+<td><a href="{% url 'delete_applicant' applicant.pk %}" class="pms-btn pms-btn-ghost pms-btn-sm" style="color:var(--rejected);border-color:var(--rejected);">Delete</a></td>
+{% endif %}
 </tr>
 {% empty %}
-<tr><td colspan="7" class="pms-empty">No applicants found.</td></tr>
+<tr><td colspan="8" class="pms-empty">No applicants found.</td></tr>
 {% endfor %}
 </tbody>
 </table>
