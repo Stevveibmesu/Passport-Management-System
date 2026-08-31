@@ -22,7 +22,10 @@
       <a href="{% url 'officer_list' %}">Officers</a>
       <a href="{% url 'reports' %}">Reports</a>
       {% endif %}
-      <a href="{% url 'logout' %}" class="pms-btn-outline">Logout</a>
+      <form method="post" action="{% url 'logout' %}" style="margin:0;display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="pms-btn-outline" style="background:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;">Logout</button>
+      </form>
       {% endblock %}
     </div>
   </div>
